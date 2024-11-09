@@ -8,13 +8,10 @@ let pokemonList = [
     {name: 'Squirtle', height: 0.5, type: 'Water'},
     {name: 'Wartortle', height: 1, type: 'Water'},
     {name: 'Blastoise', height: 1.6, type: 'Water'}
-
 ];
 
-for (let i = 0; i < pokemonList.length; i++) {
-    if (pokemonList[i].height >= 1.5) {
-        document.write(`${pokemonList[i].name} (height: ${pokemonList[i].height} m) - Wow, that's big! <br>`);
-    } else {
-        document.write(`${pokemonList[i].name} (height: ${pokemonList[i].height} m) <br>`);
-    }
-}
+pokemonList.forEach(pokemon =>{
+    document.write(`${pokemon.name} (height: ${pokemon.height} m)`);
+    if (pokemon.height >= 1.5) document.write(' - Wow, that\'s big!');
+    document.write('<br>');
+});
