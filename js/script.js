@@ -10,6 +10,7 @@ let pokemonRepository = (function () {
         {id: 8, name: 'Wartortle', height: 1, type: ['Water']},
         {id: 9, name: 'Blastoise', height: 1.6, type: ['Water']}
     ];
+    // commit test
 
     function add(pokemon) {
         pokemonList.push(pokemon);
