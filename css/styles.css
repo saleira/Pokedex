@@ -6,26 +6,6 @@ Pinky Red: #F14B3D
 Green: #60D394
 Light Grey: #F8F9FA
 Really Grey: #595F65
-
-Pokemon Type Colors
-Bug: #a8b820
-Dragon: #7038f8
-Grass: #9bcc50
-Steel: #b8b8d0
-Dark: #707070
-Flying: #a890f0
-Normal: #a4acaf
-Ghost: #705898
-Rock: #b8a038
-Ground: #e0c068
-Fighting: #c02038
-Fire: #f08030
-Electric: #f8d030
-Poison: #a040a0
-Pyshic: #f366b9
-Fairy: #fdb9e9 
-Water: #6890f0
-Ice: #98d8d8
 */
 
 :root {
@@ -36,25 +16,6 @@ Ice: #98d8d8
     --green: #60D394;
     --light-grey: #EEEFEF;
     --really-grey: #595F65;
-
-    --bug: #a8b820;
-    --dragon: #7038f8;
-    --grass: #9bcc50;
-    --steel: #b8b8d0;
-    --dark: #707070;
-    --flying: #a890f0;
-    --normal: #a4acaf;
-    --ghost: #705898;
-    --rock: #b8a038;
-    --ground: #e0c068;
-    --fighting: #c02038;
-    --fire: #f08030;
-    --electric: #f8d030;
-    --poison: #a040a0;
-    --pyshic: #f366b9;
-    --fairy: #fdb9e9;
-    --water: #6890f0;
-    --ice: #98d8d8;
 }
 
 * {
@@ -159,7 +120,7 @@ header p {
     justify-items: start;
     margin: 10px 0;
     padding: 0;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .pokemon-card {
@@ -167,8 +128,8 @@ header p {
     border-radius: 10px;
     margin: 5px;
     padding: 5px;
-    width: 145px;
-    height: 145px;
+    width: 150px;
+    height: 150px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -206,7 +167,7 @@ header p {
 }
 
 .pokemon-card-body img {
-    width: 100%;
+    width: 50%;
     height: 100%;
 }
 
@@ -233,12 +194,12 @@ header p {
 /* Tablet (600px and up) */
 @media (min-width: 600px) {
     .pokeball-img {
-        width: 150px;
-        height: 150px;
+        width: 180px;
+        height: 180px;
     }
     .pokemon-list {
         grid-template-columns: 1fr 1fr 1fr;
-        font-size: 16px;
+        font-size: 13px;
     }
     .pokemon-card {
         width: 180px;
@@ -254,7 +215,7 @@ header p {
     }
     .pokemon-list {
         grid-template-columns: 1fr 1fr 1fr;
-        font-size: 18px;
+        font-size: 16px;
     }
     .pokemon-card {
         width: 220px;
@@ -267,7 +228,7 @@ header p {
 @media (min-width: 1200px) {
     .pokemon-list {
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        font-size: 20px;
+        font-size: 18px;
     }
     .pokemon-card {
         width: 250px;

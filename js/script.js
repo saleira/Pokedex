@@ -1,16 +1,9 @@
 let pokemonRepository = (function () {
-    const pokemonList = [
-        {id: 1, name: 'Bulbasaur', height: 0.7, type: ['Grass', 'Poison'], img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg'},
-        {id: 2, name: 'Ivysaur', height: 1, type: ['Grass', 'Poison'], img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/2.svg'},
-        {id: 3, name: 'Venusaur', height: 2, type: ['Grass', 'Poison'], img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/3.svg'},
-        {id: 4, name: 'Charmander', height: 0.6, type: ['Fire'], img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/4.svg'},
-        {id: 5, name: 'Charmeleon', height: 1.1, type: ['Fire'], img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/5.svg'},
-        {id: 6, name: 'Charizard', height: 1.7, type: ['Fire', 'Flying'], img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/6.svg'},
-        {id: 7, name: 'Squirtle', height: 0.5, type: ['Water'], img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/7.svg'},
-        {id: 8, name: 'Wartortle', height: 1, type: ['Water'], img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/8.svg'},
-        {id: 9, name: 'Blastoise', height: 1.6, type: ['Water'], img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/9.svg'}
-    ];
-
+    const pokemonList = [];
+    let offset = 0;
+    const limit = 20;
+    let apiUrlBase = 'https://pokeapi.co/api/v2/pokemon';
+    let loading = false;
     const typeColors = {
         Bug: '#a8b820',
         Dragon: '#7038f8',
@@ -26,11 +19,11 @@ let pokemonRepository = (function () {
         Fire: '#f08030',
         Electric: '#f8d030',
         Poison: '#a040a0',
-        Pyshic: '#f366b9',
+        Psychic: '#f366b9',
         Fairy: '#fdb9e9', 
         Water: '#6890f0',
         Ice: '#98d8d8'
-    }
+    };
 
     function add(pokemon) {
         pokemonList.push(pokemon);
@@ -44,6 +37,9 @@ let pokemonRepository = (function () {
         return '#' + id.toString().padStart(3, '0');
     }
 
+    function capitalizeFirstLetter(val) {
+        return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+    }
 
     function addPokemonToCard(pokemon) {
         let selectSection = document.querySelector('.pokemon-list');
@@ -55,7 +51,7 @@ let pokemonRepository = (function () {
         cardHeader.classList.add('pokemon-card-header');
         card.appendChild(cardHeader);
         let pokemonName = document.createElement('p');
-        pokemonName.innerText = pokemon.name;
+        pokemonName.innerText = capitalizeFirstLetter(pokemon.name);
         let pokemonID = document.createElement('p');
         pokemonID.innerText = appendId(pokemon.id);
         cardHeader.appendChild(pokemonName);
@@ -65,30 +61,97 @@ let pokemonRepository = (function () {
         cardBody.classList.add('pokemon-card-body');
         card.appendChild(cardBody);
         let pokemonImage = document.createElement('img');
-        pokemonImage.src = pokemon.img;
+        pokemonImage.src = pokemon.imageUrl;
         cardBody.appendChild(pokemonImage);
 
         let cardFooter = document.createElement('section');
         cardFooter.classList.add('pokemon-card-footer');
         card.appendChild(cardFooter);
-        pokemon.type.forEach(type => {
+        pokemon.types.forEach(type => {
             let pokemonType = document.createElement('p');
             pokemonType.classList.add('pokemon-type-badge');
-            pokemonType.innerText = type;
-            pokemonType.style.backgroundColor = typeColors[type];
+            let typeName = capitalizeFirstLetter(type.type.name);
+            pokemonType.innerText = typeName;
+            pokemonType.style.backgroundColor = typeColors[typeName];
             cardFooter.appendChild(pokemonType);
+        });
+    }
+
+    function loadList() {
+        if (loading) return; // Exit if already loading
+        loading = true;      // Set the flag to indicate loading in progress
+
+        let apiUrl = `${apiUrlBase}?offset=${offset}&limit=${limit}`;
+        return fetch(apiUrl)
+            .then(response => response.json())
+            .then(json => {
+                let loadPromises = json.results.map(item => {
+                    let pokemon = {
+                        name: item.name,
+                        detailsUrl: item.url
+                    };
+                    return pokemonRepository.loadDetails(pokemon).then(() => pokemon);
+                });
+
+                // Wait for all details to load
+                return Promise.all(loadPromises);
+            })
+            .then(pokemonBatch => {
+                // Sort the batch by ID
+                pokemonBatch.sort((a, b) => a.id - b.id);
+
+                // Add each Pokémon in the sorted order
+                pokemonBatch.forEach(pokemon => {
+                    pokemonRepository.addPokemonToCard(pokemon);
+                });
+
+                // Update the offset for the next batch
+                offset += limit;
+                loading = false
+            })
+            .catch(error => {
+                console.error("Error loading Pokémon:", error);
+                loading = false;
+            });
+    }
+
+    function loadDetails(item) {
+        let url = item.detailsUrl;
+        return fetch(url).then(function (response) {
+            return response.json();
+        }).then(function (details) {
+            item.id = details.id;
+            item.height = details.height;
+            item.types = details.types;
+            if (details.sprites.other.dream_world.front_default) {
+                item.imageUrl = details.sprites.other.dream_world.front_default;
+            } else if (details.sprites.other['official-artwork'].front_default) {
+                item.imageUrl = details.sprites.other['official-artwork'].front_default;
+            } else if (details.sprites.front_default) {
+                item.imageUrl = details.sprites.front_default;
+            } else {
+                item.imageUrl = 'img/NoPokemon.svg';
+            }
+        }).catch(function (e) {
+            console.error(e);
         });
     }
 
     return {
         add: add,
         getAll: getAll,
-        addPokemonToCard: addPokemonToCard
+        addPokemonToCard: addPokemonToCard,
+        loadList: loadList,
+        loadDetails: loadDetails
     };
 })();
 
-let pokemonList = pokemonRepository.getAll();
+// Initial load
+pokemonRepository.loadList();
 
-pokemonList.forEach(pokemon =>{
-    pokemonRepository.addPokemonToCard(pokemon);
+window.addEventListener('scroll', () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+        // User is near the bottom of the page, load more Pokémon
+        pokemonRepository.loadList();
+    }
 });
