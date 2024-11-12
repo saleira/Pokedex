@@ -104,34 +104,40 @@ let pokemonRepository = (function () {
         });
     }
 
-    function loadList() {
-        return fetch(apiUrl).then(function (response) {
-            return response.json();
-        }).then(function (json) {
-            json.results.forEach(function (item) {
-            let pokemon = {
-            name: item.name,
-            detailsUrl: item.url
-            };
-            add(pokemon);
-        });
-        }).catch(function (e) {
-            console.error(e);
-        })
+    async function loadList() {
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const json = await response.json();
+            json.results.forEach(item => {
+                let pokemon = {
+                    name: item.name,
+                    detailsUrl: item.url
+                };
+                add(pokemon);
+            });
+        } catch (e) {
+            console.error('There has been a problem with your fetch operation: ', e);
+        }
     }
 
-    function loadDetails(item) {
+    async function loadDetails(item) {
         const url = item.detailsUrl;
-        return fetch(url).then(function (response) {
-            return response.json();
-        }).then(function (details) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const details = await response.json();
             item.id = details.id;
             item.height = details.height;
             item.types = details.types;
             item.imageUrl = details.sprites.other.dream_world.front_default;
-        }).catch(function (e) {
-            console.error(e);
-        });
+        } catch (e) {
+            console.error('There has been a problem with your fetch operation: ', e);
+        }
     }
 
     window.addEventListener('keydown', (e) => {
@@ -145,8 +151,7 @@ let pokemonRepository = (function () {
         add: add,
         getAll: getAll,
         addListItem: addListItem,  
-        loadList: loadList,
-        loadDetails: loadDetails
+        loadList: loadList
     };
 })();
 
