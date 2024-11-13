@@ -83,26 +83,28 @@ let pokemonRepository = (function () {
         modalContainer.classList.remove('is-visible');
     }
 
-    // Function to create list items with Pokémon details including a button that displays the pokemon info to the console
     function addListItem(pokemon) {
-        const pokemonElementList = document.querySelector('.pokemon-list'); // Selects the ul with the class 'pokemon-list'
-        const listItem = document.createElement('li'); // Creates a list item
-        const button = document.createElement('button'); // Creates a button
+        const pokemonElementList = document.querySelector('#pokemon-grid');
+        const button = document.createElement('button');
+        button.setAttribute('type', 'button');
+        button.setAttribute('data-bs-toggle', 'modal');
+        button.setAttribute('data-bs-target', '#modal-container');
 
-        button.innerText = capitalizeFirstLetter(pokemon.name); // Sets the button text to the Pokémon's name
-        button.classList.add('button-class'); // Adds a class to the button
-        buttonEventListener(button, pokemon); // Calls the buttonEventListener function with the button and pokemon as arguments
+        button.classList.add('g-col-12', 'g-col-sm-6' ,'g-col-md-4', 'g-col-xl-3', 'p-2', 'm-1', 'm-sm-2');
 
-        listItem.appendChild(button); // Appends the button to the list item
-        pokemonElementList.appendChild(listItem); // Appends the list item to the ul
+        button.innerText = capitalizeFirstLetter(pokemon.name);
+        button.classList.add('btn', 'btn-primary', 'btn-block');
+        // buttonEventListener(button, pokemon);
+
+        pokemonElementList.appendChild(button); 
     }
 
     // Function to add event listener to button
-    function buttonEventListener(button, pokemon) {
-        button.addEventListener('click', function () {
-            buildModal(pokemon);
-        });
-    }
+    // function buttonEventListener(button, pokemon) {
+    //     button.addEventListener('click', function () {
+    //         buildModal(pokemon);
+    //     });
+    // }
 
     async function loadList() {
         try {
