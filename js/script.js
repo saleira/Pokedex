@@ -41,45 +41,62 @@ let pokemonRepository = (function () {
         return String(val).charAt(0).toUpperCase() + String(val).slice(1);
     }
 
-    function addPokemonToCard(pokemon) {
-        let selectSection = document.querySelector('.pokemon-list');
-        let card = document.createElement('div');
-        card.classList.add('pokemon-card');
-        selectSection.appendChild(card);
+    function createCard(pokemon) {
+        const card = document.querySelector('#pokemon-main-card');
+        const gridElement = document.createElement('div');
+        gridElement.classList.add('card', 'rounded-3', 'g-col-12', 'g-col-sm-6' ,'g-col-md-4', 'g-col-xl-3', 'p-2', 'm-1', 'm-sm-2', 'flex-fill');
+        card.appendChild(gridElement);
 
-        let cardHeader = document.createElement('section');
-        cardHeader.classList.add('pokemon-card-header');
-        card.appendChild(cardHeader);
-        let pokemonName = document.createElement('p');
-        pokemonName.innerText = capitalizeFirstLetter(pokemon.name);
-        let pokemonID = document.createElement('p');
-        pokemonID.innerText = appendId(pokemon.id);
-        cardHeader.appendChild(pokemonName);
-        cardHeader.appendChild(pokemonID);
+        const pokemonImg = document.createElement('img');
+        pokemonImg.src = pokemon.imageUrl;
+        pokemonImg.classList.add('img-fluid', 'pokemon-card-body');
+        gridElement.appendChild(pokemonImg);
 
-        let cardBody = document.createElement('section');
-        cardBody.classList.add('pokemon-card-body');
-        card.appendChild(cardBody);
-        let pokemonImage = document.createElement('img');
-        pokemonImage.src = pokemon.imageUrl;
-        cardBody.appendChild(pokemonImage);
+        const cardBody = document.createElement('div');
+        cardBody.classList.add('card-body');
+        gridElement.appendChild(cardBody);
 
-        let cardFooter = document.createElement('section');
-        cardFooter.classList.add('pokemon-card-footer');
-        card.appendChild(cardFooter);
+        const cardTitle = document.createElement('h5');
+        cardTitle.innerText = capitalizeFirstLetter(pokemon.name);
+        cardTitle.classList.add('mb-0');
+
+        cardBody.appendChild(cardTitle);
+        const cardSubtitle = document.createElement('h6');
+        cardSubtitle.classList.add('mb-3', 'text-muted');
+        cardSubtitle.innerText = appendId(pokemon.id);
+        cardBody.appendChild(cardSubtitle);
+
+        const typesContainer = document.createElement('div');
+        typesContainer.classList.add('grid', 'gap-2' );
+        cardBody.appendChild(typesContainer);
         pokemon.types.forEach(type => {
-            let pokemonType = document.createElement('p');
-            pokemonType.classList.add('pokemon-type-badge');
-            let typeName = capitalizeFirstLetter(type.type.name);
+            const pokemonType = document.createElement('p');
+            pokemonType.classList.add('g-col-6', 'text-center', 'p-2', 'rounded-3', 'm-0', 'pokemon-card-footer');
+            const typeName = capitalizeFirstLetter(type.type.name);
             pokemonType.innerText = typeName;
             pokemonType.style.backgroundColor = typeColors[typeName];
-            cardFooter.appendChild(pokemonType);
+            typesContainer.appendChild(pokemonType);
         });
     }
 
     function loadList() {
         if (loading) return; // Exit if already loading
         loading = true;      // Set the flag to indicate loading in progress
+
+        const spinnerContainer = document.createElement('div');
+        spinnerContainer.classList.add('d-flex', 'justify-content-center', 'm-5'); 
+
+        // Spinner element
+        const spinnerElement = document.createElement('div');
+        spinnerElement.classList.add('spinner-border', 'text-primary');
+        spinnerElement.setAttribute('role', 'status');
+
+        // Insert the spinnerContainer after #pokemon-main-card
+        spinnerContainer.appendChild(spinnerElement);
+
+        // Append the spinner container to the #pokemon-main-card div
+        const mainContainer = document.querySelector('#pokemon-main-card');
+        mainContainer.insertAdjacentElement('afterend', spinnerContainer);
 
         let apiUrl = `${apiUrlBase}?offset=${offset}&limit=${limit}`;
         return fetch(apiUrl)
@@ -102,24 +119,28 @@ let pokemonRepository = (function () {
 
                 // Add each Pokémon in the sorted order
                 pokemonBatch.forEach(pokemon => {
-                    pokemonRepository.addPokemonToCard(pokemon);
+                    pokemonRepository.createCard(pokemon);
                 });
 
                 // Update the offset for the next batch
                 offset += limit;
-                loading = false
             })
             .catch(error => {
                 console.error("Error loading Pokémon:", error);
+            })
+            .finally(() => {
+                // Remove the spinner and reset the loading flag
+                spinnerContainer.remove();
                 loading = false;
             });
     }
 
-    function loadDetails(item) {
+
+    async function loadDetails(item) {
         let url = item.detailsUrl;
-        return fetch(url).then(function (response) {
-            return response.json();
-        }).then(function (details) {
+        try {
+            const response = await fetch(url);
+            const details = await response.json();
             item.id = details.id;
             item.height = details.height;
             item.types = details.types;
@@ -132,17 +153,17 @@ let pokemonRepository = (function () {
             } else {
                 item.imageUrl = 'img/NoPokemon.svg';
             }
-        }).catch(function (e) {
+        } catch (e) {
             console.error(e);
-        });
+        }
     }
 
     return {
         add: add,
         getAll: getAll,
-        addPokemonToCard: addPokemonToCard,
         loadList: loadList,
-        loadDetails: loadDetails
+        loadDetails: loadDetails,
+        createCard: createCard
     };
 })();
 
