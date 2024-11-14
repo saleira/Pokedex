@@ -1,5 +1,6 @@
 let pokemonRepository = (function () {
-    const pokemonList = [];
+    let pokemonList = [];
+    let pokemonListBackup = [];
     let offset = 0;
     const limit = 20;
     let apiUrlBase = 'https://pokeapi.co/api/v2/pokemon';
