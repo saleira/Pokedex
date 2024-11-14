@@ -6,30 +6,19 @@ Pinky Red: #F14B3D
 Green: #60D394
 Light Grey: #F8F9FA
 Really Grey: #595F65
-
-Pokemon Type Colors
-Bug: #a8b820
-Dragon: #7038f8
-Grass: #9bcc50
-Steel: #b8b8d0
-Dark: #707070
-Flying: #a890f0
-Normal: #a4acaf
-Ghost: #705898
-Rock: #b8a038
-Ground: #e0c068
-Fighting: #c02038
-Fire: #f08030
-Electric: #f8d030
-Poison: #a040a0
-Pyshic: #f366b9
-Fairy: #fdb9e9 
-Water: #6890f0
-Ice: #98d8d8
 */
 
 
 .btn-primary:hover {
     background-color: #0056b3; /* Slightly darker than the default #007bff */
     border-color: #0056b3;     /* Match border to background color */
+}
+.img-fluid {
+    height: 300px;
+}
+@media (max-width: 500px) {
+  .pokemon-list button {
+    font-size: 0.8rem;
+    padding: 2px;
+  }
 }
