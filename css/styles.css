@@ -40,48 +40,12 @@ header p {
 .navbar {
     background-color: var(--main-blue) !important;
 }
-.d-inline-block.align-text-top {
-    width: 150px;
-    height: 50px;
+.navbar-brand img {
+  height: 60px;
 }
-.search-header {
-    max-width: 500px; 
-}
-.pokeball-img {
-    width: 120px;
-    height: 120px;
-    top: 0;
-    right: 0;
-    transform: translate(30%, -23%);
-    opacity: 0.5;
-    pointer-events: none;
-    float: right;
-    margin-left: 20px;
-}
-.input-container {
-    max-width: 300px;
-    width: 100%;
-    background-color: #ffffff;
-    height: fit-content;
-}
-.input-container input {
-    width: 100%;
-    outline: none;
-}
-.input-button {
-    border: none;
-    background-color: hsl(0, 0%, 0%);
-    color: #ffffff;
-    padding: 8px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-}
-.input-button:hover,
-.input-button:focus {
-    background-color: #555555;
-}
-.input-button:active {
-    background-color: #222222; 
+.nav-link img {
+    width: 30px;
+    height: 30px;
 }
 /* --------------------------------------- */
 /* POKEMON LIST */
@@ -96,20 +60,20 @@ header p {
     width: 4rem;
     height: 4rem;
 }
-.card {
+.cardListElem {
     background-color: #ffffff;
-    transition: transform 0.2s, box-shadow 0.2s;
+    /* transition: transform 0.2s, box-shadow 0.2s; */
 }
-.card:hover, 
-.card:focus {
+/* .cardListElem:hover, 
+.cardListElem:focus {
     cursor: pointer;
     transform: translateY(-5px); 
     box-shadow: 0 4px 8px #d3d3d3;
 }
-.card:active {
+.cardListElem:active {
     transform: translateY(-2px) scale(0.98);
     box-shadow: 0 2px 4px #a8a8a8;
-}
+} */
 .grid.gap-2 {
   color: #fff;
 }

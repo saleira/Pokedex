@@ -45,7 +45,7 @@ let pokemonRepository = (function () {
     function createCard(pokemon) {
         const card = document.querySelector('#pokemon-main-card');
         const gridElement = document.createElement('div');
-        gridElement.classList.add('card', 'rounded-3', 'g-col-12', 'g-col-sm-6' ,'g-col-md-4', 'g-col-xl-3', 'p-2', 'm-1', 'm-sm-2', 'flex-fill');
+        gridElement.classList.add('card', 'cardListElem', 'rounded-3', 'g-col-12', 'g-col-sm-6' ,'g-col-md-4', 'g-col-xl-3', 'p-2', 'm-1', 'm-sm-2', 'flex-fill');
         card.appendChild(gridElement);
 
         const pokemonImg = document.createElement('img');
@@ -72,7 +72,7 @@ let pokemonRepository = (function () {
         cardBody.appendChild(typesContainer);
         pokemon.types.forEach(type => {
             const pokemonType = document.createElement('p');
-            pokemonType.classList.add('g-col-6', 'text-center', 'p-2', 'rounded-3', 'm-0', 'pokemon-card-footer');
+            pokemonType.classList.add('g-col-6', 'text-center', 'p-2', 'rounded-3', 'm-0');
             const typeName = capitalizeFirstLetter(type.type.name);
             pokemonType.innerText = typeName;
             pokemonType.style.backgroundColor = typeColors[typeName];
