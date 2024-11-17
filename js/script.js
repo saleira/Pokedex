@@ -121,7 +121,6 @@ let pokemonRepository = (function () {
                     await Promise.all(loadPromises);
                 } else if (currentType) {
                     const pokemonList = data.pokemon;
-                    console.log(pokemonList);
 
                     const loadPromises = pokemonList.map(async (item) => {
                         const pokemon = {name: item.pokemon.name, detailsUrl: item.pokemon.url};
@@ -191,6 +190,7 @@ let pokemonRepository = (function () {
         dropdown.innerHTML = '';
         list.forEach(item => {
             const listItem = document.createElement('li');
+            listItem.classList.add('dropdownOption'); 
             const link = document.createElement('a');
             link.classList.add('dropdown-item', 'text-capitalize');
             link.href = '#';
@@ -306,3 +306,20 @@ const allPokemonButtons = document.querySelectorAll('#allPokemons, #pokemonLogo'
 allPokemonButtons.forEach(button => {
     button.addEventListener('click', pokemonRepository.resetFilter);
 });
+
+
+$('#allPokemonsItem a').on('click', function () {
+    $('.dropdown a').removeClass('active');
+    $(this).addClass('active');
+});
+
+$('.dropdownOption a').on('click', function () {
+    $('#allPokemonsItem a').removeClass('active');
+    $(this).addClass('active');
+});
+
+// $('.dropdownOption a').on('click', function () {
+//     $('#allPokemonsItem a').removeClass('active');
+//     $('.dropdown a').removeClass('active');
+//     $(this).addClass('active');
+// });
