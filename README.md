@@ -2,6 +2,8 @@
 
 This project is a simple web application that displays a list of Pokémon using the [PokéAPI](https://pokeapi.co/). The application allows users to filter Pokémon by generation and type. It features infinite scrolling, so new Pokémon are loaded as you scroll down the page.
 
+You can view the live application [here](https://saleira.github.io/Pokedex/).
+
 ## Features
 
 - Display Pokémon with their name, ID, image, and types.
