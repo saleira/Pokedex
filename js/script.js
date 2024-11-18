@@ -60,6 +60,7 @@ let pokemonRepository = (function () {
         const cardTitle = document.createElement('h5');
         cardTitle.innerText = pokemon.name;
         cardTitle.classList.add('mb-0', 'text-capitalize');
+        cardTitle.setAttribute('title', pokemon.name);
 
         cardBody.appendChild(cardTitle);
         const cardSubtitle = document.createElement('h6');
@@ -231,6 +232,7 @@ let pokemonRepository = (function () {
     async function loadTypeDropdown() {
         let typeList = await loadDropdowns(apiType);
         typeList = typeList.filter(type => type.name !== 'unknown');
+        typeList = typeList.filter(type => type.name !== 'stellar');
         typeList.sort((a, b) => a.name.localeCompare(b.name));
         createDropdown(typeList, '#typeDropdown');
 
@@ -244,7 +246,7 @@ let pokemonRepository = (function () {
 
     function showLoading() {
         const spinnerContainer = document.createElement('div');
-        spinnerContainer.id = 'loading-spinner'; // Assign an ID for easy removal
+        spinnerContainer.id = 'loading-spinner';
         spinnerContainer.classList.add('d-flex', 'justify-content-center', 'm-5');
 
         const spinnerElement = document.createElement('div');
@@ -308,18 +310,36 @@ allPokemonButtons.forEach(button => {
 });
 
 
-$('#allPokemonsItem a').on('click', function () {
-    $('.dropdown a').removeClass('active');
-    $(this).addClass('active');
+$(document).ready(function () {
+    $(document).on("click", ".dropdown-menu .dropdown-item", function () {
+        $(".nav-link.active").removeClass("active");
+        $('.dropdown-menu .dropdown-item.active').removeClass("active");
+        $(this).closest(".dropdown").find(".nav-link").addClass("active");
+        $(this).addClass("active");
+    });
+    $(document).on("click", "#allPokemons", function () {
+        $(".nav-link.active").removeClass("active");
+        $('.dropdown-menu .dropdown-item.active').removeClass("active");
+        $(this).addClass("active");
+    });
+    $(document).on("click", "#pokemonLogo", function () {
+        $(".nav-link.active").removeClass("active");
+        $('.dropdown-menu .dropdown-item.active').removeClass("active");
+        $("#allPokemons").addClass("active");
+    });
 });
 
-$('.dropdownOption a').on('click', function () {
-    $('#allPokemonsItem a').removeClass('active');
-    $(this).addClass('active');
+const backToTopBtn = document.getElementById('backToTopBtn');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        backToTopBtn.classList.remove('d-none');
+    } else {
+        backToTopBtn.classList.add('d-none');
+    }
 });
-
-// $('.dropdownOption a').on('click', function () {
-//     $('#allPokemonsItem a').removeClass('active');
-//     $('.dropdown a').removeClass('active');
-//     $(this).addClass('active');
-// });
+backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
