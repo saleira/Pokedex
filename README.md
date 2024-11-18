@@ -11,7 +11,7 @@ This project is a simple web application that displays a list of Pokémon using 
 
 ## Design
 
-The design of this application was inspired by the [Medium article titled "Designing a Pokémon Application: Wireframes, UI, and Prototype" by Skaoi](https://medium.com/@Skaoi/designing-a-pok%C3%A9mon-application-wireframes-ui-and-prototype-9cc6ec4de477).
+The design of this application was inspired by the [Medium article titled "Designing a Pokémon Application: Wireframes, UI, and Prototype" by Skaoi](https://medium.com/@Skaoi/designing-a-pok%C3%A9mon-application-wireframes-ui-and-prototype-9cc6ec4de477). The application is **mobile-first focused**, ensuring that the layout and functionality are optimized for mobile devices. The use of responsive design principles with Bootstrap ensures that the app adjusts seamlessly to various screen sizes, providing an optimal user experience on both small and large screens.
 
 ## Technologies Used
 
