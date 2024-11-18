@@ -24,7 +24,7 @@ let pokemonRepository = (function () {
         electric: '#f8d030',
         poison: '#a040a0',
         psychic: '#f366b9',
-        fairy: '#fdb9e9', 
+        fairy: '#fdb9e9',
         water: '#6890f0',
         ice: '#98d8d8'
     };
@@ -45,7 +45,7 @@ let pokemonRepository = (function () {
     function createCard(pokemon) {
         const card = document.querySelector('#pokemon-main-card');
         const gridElement = document.createElement('div');
-        gridElement.classList.add('card', 'cardListElem', 'rounded-3', 'g-col-12', 'g-col-sm-6' ,'g-col-md-4', 'g-col-xl-3', 'p-2', 'm-1', 'm-sm-2', 'flex-fill');
+        gridElement.classList.add('card', 'cardListElem', 'rounded-3', 'g-col-12', 'g-col-sm-6', 'g-col-md-4', 'g-col-xl-3', 'p-2', 'm-1', 'm-sm-2', 'flex-fill');
         card.appendChild(gridElement);
 
         const pokemonImg = document.createElement('img');
@@ -69,7 +69,7 @@ let pokemonRepository = (function () {
         cardBody.appendChild(cardSubtitle);
 
         const typesContainer = document.createElement('div');
-        typesContainer.classList.add('grid', 'gap-2' );
+        typesContainer.classList.add('grid', 'gap-2');
         cardBody.appendChild(typesContainer);
         pokemon.types.forEach(type => {
             const pokemonType = document.createElement('p');
@@ -115,7 +115,7 @@ let pokemonRepository = (function () {
                     const speciesList = data.pokemon_species
 
                     const loadPromises = speciesList.map(async (species) => {
-                        const pokemon = {name: species.name, detailsUrl: species.url.replace('-species', '')};
+                        const pokemon = { name: species.name, detailsUrl: species.url.replace('-species', '') };
                         await loadPokemonDetails(pokemon);
                         add(pokemon);
                     });
@@ -124,14 +124,14 @@ let pokemonRepository = (function () {
                     const pokemonList = data.pokemon;
 
                     const loadPromises = pokemonList.map(async (item) => {
-                        const pokemon = {name: item.pokemon.name, detailsUrl: item.pokemon.url};
+                        const pokemon = { name: item.pokemon.name, detailsUrl: item.pokemon.url };
                         await loadPokemonDetails(pokemon);
                         add(pokemon);
                     });
                     await Promise.all(loadPromises);
                 } else {
                     const loadPromises = data.results.map(async (item) => {
-                        const pokemon = {name: item.name, detailsUrl: item.url};
+                        const pokemon = { name: item.name, detailsUrl: item.url };
                         await loadPokemonDetails(pokemon);
                         add(pokemon);
                     });
@@ -186,12 +186,12 @@ let pokemonRepository = (function () {
     }
 
     // Create a dropdown list
-    function createDropdown(list, dropdownSelector){
+    function createDropdown(list, dropdownSelector) {
         const dropdown = document.querySelector(dropdownSelector);
         dropdown.innerHTML = '';
         list.forEach(item => {
             const listItem = document.createElement('li');
-            listItem.classList.add('dropdownOption'); 
+            listItem.classList.add('dropdownOption');
             const link = document.createElement('a');
             link.classList.add('dropdown-item', 'text-capitalize');
             link.href = '#';
