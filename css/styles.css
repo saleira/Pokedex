@@ -1,24 +1,110 @@
-/*
-MainBlue: #072AC8
-Bright Yellow: #FFD85D
-Orange: #FF844F
-Pinky Red: #F14B3D
-Green: #60D394
-Light Grey: #F8F9FA
-Really Grey: #595F65
-*/
-
-
-.btn-primary:hover {
-    background-color: #0056b3; /* Slightly darker than the default #007bff */
-    border-color: #0056b3;     /* Match border to background color */
+:root {
+    --main-blue: #072AC8;
+    --bright-yellow: #FFD85D;
+    --orange: #FF844F;
+    --pinky-red: #F14B3D;
+    --green: #60D394;
+    --light-grey: #EEEFEF;
+    --really-grey: #595F65;
 }
-.img-fluid {
-    height: 300px;
+
+* {
+    box-sizing: border-box;
 }
-@media (max-width: 500px) {
-  .pokemon-list button {
-    font-size: 0.8rem;
-    padding: 2px;
-  }
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: var(--light-grey);
+}
+/* --------------------------------------- */
+/* HEADER */
+/* --------------------------------------- */
+header {
+    background-color: var(--light-grey);
+    color: #ffffff;
+    padding: 28px;
+}
+header p {
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+.navbar {
+    background-color: var(--main-blue) !important;
+}
+.navbar-brand img {
+  height: 60px;
+}
+.nav-link img {
+    width: 30px;
+    height: 30px;
+}
+/* --------------------------------------- */
+/* POKEMON LIST */
+/* --------------------------------------- */
+#pokemon-main-card {
+    max-width: 80rem;
+}
+.pokemon-card-body {
+    height: 150px;
+    width: 17rem;
+}
+.spinner-border {
+    width: 4rem;
+    height: 4rem;
+}
+.cardListElem {
+    background-color: #ffffff;
+}
+
+.grid.gap-2 {
+  color: #fff;
+}
+
+.card-body h5 {
+    overflow: hidden; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+#backToTopBtn {
+    background-color: var(--main-blue);
+    color: #ffffff;
+    border: none;
+}
+
+#backToTopBtn:hover {
+    background-color: var(--bright-yellow);
+    color: #000000;
+}
+
+/* --------------------------------------- */
+/* MEDIA QUERIES */
+/* --------------------------------------- */
+@media (min-width: 576px) {
+    .pokemon-card-body {
+        height: 180px;
+    }
+    .pokeball-img {
+        width: 180px;
+        height: 180px;
+    }
+}
+@media (min-width: 768px) {
+    .pokeball-img {
+        width: 200px;
+        height: 200px;
+    }
+}
+@media (min-width: 992px) {
+    .pokemon-card-body {
+        width: 20rem;
+    }
+}
+@media (min-width: 1200px) {
+    .pokemon-card-body {
+        height: 200px;
+    }
+    header p {
+        font-size: 30px;
+    }
 }
